@@ -54,7 +54,7 @@ services:
     depends_on:
       - db
   
-  database:
+  db:
     image: postgres:15
     restart: on-failure
     environment:

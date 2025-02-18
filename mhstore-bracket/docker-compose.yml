@@ -21,6 +21,7 @@ services:
   backend:
     image: ghcr.io/evroon/bracket-backend
     restart: on-failure
+    user: "1000:1000"
     environment:
       ENVIRONMENT: PRODUCTION
       CORS_ORIGINS: http://${APP_DOMAIN}:${APP_PROXY_PORT}
@@ -37,7 +38,9 @@ services:
   frontend:
     image: ghcr.io/evroon/bracket-frontend
     restart: on-failure
+    user: "1000:1000"
     environment:
+      NODE_ENV: production
       NEXT_PUBLIC_API_BASE_URL: http://${APP_DOMAIN}:${APP_PROXY_PORT}/api/
       NEXT_PUBLIC_HCAPTCHA_SITE_KEY: 10000000-ffff-ffff-ffff-000000000001
 

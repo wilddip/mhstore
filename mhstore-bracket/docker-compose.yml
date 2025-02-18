@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: mhstore-bracket_server_1
+      APP_HOST: ${APP_ID}_server_1
       APP_PORT: 80
       PROXY_AUTH_ADD: "false"
 
@@ -12,6 +12,8 @@ services:
     restart: on-failure
     volumes:
       - ${APP_DATA_DIR}/data/Caddyfile:/etc/caddy/Caddyfile
+    enviroment:
+      APP_ID: ${APP_ID}
     depends_on:
       - backend
       - frontend
@@ -21,14 +23,12 @@ services:
     restart: on-failure
     environment:
       ENVIRONMENT: PRODUCTION
-      CORS_ORIGINS: ${APP_DOMAIN}
-      PG_DSN: postgresql://bracket:bracket@mhstore-bracket_db_1:5432/bracket
+      CORS_ORIGINS: http://${APP_DOMAIN}:${APP_PROXY_PORT}
+      PG_DSN: postgresql://bracket:bracket@${APP_ID}_db_1:5432/bracket
       ADMIN_EMAIL: root@umbrel.local
       ADMIN_PASSWORD: p@ssw0rd
       JWT_SECRET: ${APP_SEED}
       ALLOW_INSECURE_HTTP_SSO: "false"
-    env_file:
-      - ${APP_DATA_DIR}/data/.env
     volumes:
       - ${APP_DATA_DIR}/data/static:/app/static
     depends_on:
@@ -38,7 +38,7 @@ services:
     image: ghcr.io/evroon/bracket-frontend
     restart: on-failure
     environment:
-      NEXT_PUBLIC_API_BASE_URL: ${APP_DOMAIN}/api/
+      NEXT_PUBLIC_API_BASE_URL: http://${APP_DOMAIN}:${APP_PROXY_PORT}/api/
       NEXT_PUBLIC_HCAPTCHA_SITE_KEY: 10000000-ffff-ffff-ffff-000000000001
 
   db:

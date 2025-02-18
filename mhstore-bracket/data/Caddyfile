@@ -1,7 +1,13 @@
+{
+    auto_https off
+}
+
 /api/* {
-    reverse_proxy mhstore-bracket_backend_1:8400
+    handle_path /api/* {
+        reverse_proxy {ENV.APP_ID}_server_1:8400
+    }
 }
 
 /* {
-    reverse_proxy mhstore-bracket_frontend_1:3000
+    reverse_proxy {ENV.APP_ID}_frontend_1:3000
 }

@@ -47,6 +47,7 @@ gallery: []
 releaseNotes: >-
   Forgejo v10.0.1 Release Notes (February 8, 2025):
 
+
   🔒 Security Fixes:
     - Fixed permissions enforcement for Forgejo Actions web endpoints to prevent unauthorized deletion of runners/variables or modification of variables.
     - Fixed information leakage in user/organization-wide projects for private repositories.
@@ -59,7 +60,6 @@ releaseNotes: >-
 
   🌐 Localization:
     - Updated translations from Codeberg Translate.
-
 
   🐛 Bug Fixes:
     - Fixed loading settings for valid user and email checks.

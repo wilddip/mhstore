@@ -3,7 +3,7 @@ version: '3.8'
 services:
   app_proxy:
     environment:
-      APP_HOST: mhstore-coolify_server_1
+      APP_HOST: ${APP_ID}_server_1
       APP_PORT: 8102
       PROXY_AUTH_ADD: "false"
 
@@ -17,14 +17,14 @@ services:
       DB_USERNAME: coolify
       DB_PASSWORD: coolify
       DB_DATABASE: coolify
-      DB_HOST: mhstore-coolify_db_1
+      DB_HOST: ${APP_ID}_db_1
       DB_PORT: 5432
-      REDIS_HOST: mhstore-coolify_redis_1
+      REDIS_HOST: ${APP_ID}_redis_1
       REDIS_PASSWORD: coolify
       ROOT_USERNAME: root
       ROOT_USER_EMAIL: root@umbrel.local
       ROOT_USER_PASSWORD: p@ssw0rd
-      PUSHER_BACKEND_HOST: mhstore-coolify_pusher_1
+      PUSHER_BACKEND_HOST: ${APP_ID}_pusher_1
       PHP_MEMORY_LIMIT: 128M
       PHP_FPM_PM_CONTROL: dynamic
       PHP_FPM_PM_START_SERVERS: 1

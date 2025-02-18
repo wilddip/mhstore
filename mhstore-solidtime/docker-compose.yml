@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: mhstore-solidtime_server_1
+      APP_HOST: ${APP_ID}_server_1
       APP_PORT: 8103
       PROXY_AUTH_ADD: "false"
   
@@ -73,8 +73,3 @@ services:
     image: gotenberg/gotenberg:8
     healthcheck:
       test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:3000/health" ]
-networks:
-  internal:
-volumes:
-  database-storage:
-  app-storage:

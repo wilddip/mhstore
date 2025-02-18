@@ -43,7 +43,11 @@ repo: https://codeberg.org/forgejo/forgejo
 support: https://codeberg.org/forgejo/forgejo/issues
 port: 8101
 icon: https://i.imgur.com/Tz2kQnu.png
-gallery: []
+gallery:
+  - https://i.imgur.com/byrhIAB.png
+  - https://i.imgur.com/K5fJhOc.png
+  - https://i.imgur.com/HLFcMid.png
+  - https://i.imgur.com/R3BsCjF.png
 releaseNotes: >-
   Forgejo v10.0.1 Release Notes (February 8, 2025):
 

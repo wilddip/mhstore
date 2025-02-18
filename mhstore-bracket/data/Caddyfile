@@ -4,7 +4,7 @@
 
 /api/* {
     handle_path /api/* {
-        reverse_proxy {ENV.APP_ID}_server_1:8400
+        reverse_proxy {ENV.APP_ID}_backend_1:8400
     }
 }
 

@@ -1,7 +1,7 @@
 manifestVersion: 1.1
-id: mhstore-coolify
+id: mhstore-solidtime
 category: developer
-name: Coolify
+name: Solidtime
 version: "1.0.0"
 tagline: Tagline
 description: Description
@@ -10,10 +10,8 @@ website: https://example.com/
 dependencies: []
 repo: https://example.com/repo
 support: https://example.com/repo/issues
-port: 8102
+port: 8103
 icon: https://i.imgur.com/xI0D9mt.png
 gallery: []
 releaseNotes: >-
   ⚠️ No release notes! Absolutely!
-defaultUsername: root
-defaultPassword: p@ssw0rd

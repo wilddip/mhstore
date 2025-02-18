@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+APP_DATA_DIR="$(readlink -f $(dirname "${BASH_SOURCE[0]}")/..)"
+ENV_FILE="${APP_DATA_DIR}/data/.env"
+
+# Generating
+APP_KEY="base64:$(openssl rand -base64 32)" # base64(256-bit key)
+PRIVATE_KEY=$(openssl genpkey -algorithm RSA -outform PEM | sed -z 's/\n/\\n/g')
+PUBLIC_KEY=$(echo -e "$PRIVATE_KEY" | openssl rsa -pubout -outform PEM | sed -z 's/\n/\\n/g')
+
+# Replacing
+sed -i "s|APP_KEY=EXAMPLE|APP_KEY=\"$APP_KEY\"|g" "$ENV_FILE"
+sed -i "s|PASSPORT_PRIVATE_KEY=EXAMPLE|PASSPORT_PRIVATE_KEY=\"$PRIVATE_KEY\"|g" "$ENV_FILE"
+sed -i "s|PASSPORT_PUBLIC_KEY=EXAMPLE|PASSPORT_PUBLIC_KEY=\"$PUBLIC_KEY\"|g" "$ENV_FILE"

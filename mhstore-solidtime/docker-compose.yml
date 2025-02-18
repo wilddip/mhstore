@@ -1,0 +1,79 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: mhstore-solidtime_server_1
+      APP_PORT: 8103
+      PROXY_AUTH_ADD: "false"
+  
+  server:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/solidtime:/var/www/html/storage
+    environment:
+      CONTAINER_MODE: http
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail http://localhost:8000/health-check/up || exit 1" ]
+    env_file:
+      - ${APP_DATA_DIR}/data/laravel.env
+    depends_on:
+      - db
+  
+  scheduler:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/solidtime:/var/www/html/storage
+    environment:
+      CONTAINER_MODE: scheduler
+    healthcheck:
+      test: [ "CMD-SHELL", "supervisorctl status scheduler:scheduler_00" ]
+    env_file:
+      - ${APP_DATA_DIR}/data/laravel.env
+    depends_on:
+      - db
+  
+  queue:
+    image: solidtime/solidtime:latest
+    user: "1000:1000"
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/solidtime:/var/www/html/storage
+    environment:
+      CONTAINER_MODE: worker
+      WORKER_COMMAND: "php /var/www/html/artisan queue:work"
+    healthcheck:
+      test: [ "CMD-SHELL", "supervisorctl status worker:worker_00" ]
+    env_file:
+      - ${APP_DATA_DIR}/data/laravel.env
+    depends_on:
+      - db
+  
+  database:
+    image: postgres:15
+    restart: on-failure
+    environment:
+      POSTGRES_DB: solidtime
+      POSTGRES_USER: solidtime
+      POSTGRES_PASSWORD: solidtime
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U solidtime", "-d", "solidtime" ]
+      interval: 5s
+      retries: 10
+      timeout: 2s
+  
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    healthcheck:
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:3000/health" ]
+networks:
+  internal:
+volumes:
+  database-storage:
+  app-storage:

@@ -21,8 +21,8 @@ services:
       DB_PORT: 5432
       REDIS_HOST: ${APP_ID}_redis_1
       ROOT_USERNAME: root
-      ROOT_USER_EMAIL: root@umbrel.local
-      ROOT_USER_PASSWORD: p@ssw0rd
+      ROOT_USER_EMAIL: root@example.com
+      ROOT_USER_PASSWORD: P@ssw0rd
       PUSHER_BACKEND_HOST: ${APP_ID}_pusher_1
       PHP_MEMORY_LIMIT: 128M
       PHP_FPM_PM_CONTROL: dynamic

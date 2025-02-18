@@ -4,7 +4,7 @@ services:
   app_proxy:
     environment:
       APP_HOST: ${APP_ID}_server_1
-      APP_PORT: 8103
+      APP_PORT: 3000
       PROXY_AUTH_ADD: "false"
   
   server:
@@ -15,7 +15,7 @@ services:
       - ${APP_DATA_DIR}/data/solidtime:/var/www/html/storage
     environment:
       CONTAINER_MODE: http
-      APP_PORT: 8103
+      APP_PORT: 3000
     healthcheck:
       test: [ "CMD-SHELL", "curl --fail http://localhost:8103/health-check/up || exit 1" ]
     env_file:

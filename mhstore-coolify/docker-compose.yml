@@ -4,7 +4,7 @@ services:
   app_proxy:
     environment:
       APP_HOST: ${APP_ID}_server_1
-      APP_PORT: 8102
+      APP_PORT: 3000
       PROXY_AUTH_ADD: "false"
 
   server:
@@ -13,7 +13,7 @@ services:
     environment:
       APP_ENV: production
       APP_HOST: ${APP_DOMAIN}
-      APP_PORT: 8102
+      APP_PORT: 3000
       DB_USERNAME: coolify
       DB_PASSWORD: coolify
       DB_DATABASE: coolify

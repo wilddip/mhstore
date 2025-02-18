@@ -29,6 +29,8 @@ services:
       FORGEJO__database__NAME: "forgejo"
       FORGEJO__database__USER: "forgejo"
       FORGEJO__database__PASSWD: "forgejo"
+    depends_on:
+      - db
 
   db:
     image: postgres:14

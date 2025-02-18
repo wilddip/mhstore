@@ -4,7 +4,7 @@ services:
   app_proxy:
     environment:
       APP_HOST: forgejo_server_1
-      APP_PORT: 8085
+      APP_PORT: 8101
       PROXY_AUTH_ADD: "false"
 
   server:
@@ -19,7 +19,7 @@ services:
     environment:
       FORGEJO__security__INSTALL_LOCK: "true"
       FORGEJO__server__DOMAIN: "${APP_DOMAIN}"
-      FORGEJO__server__HTTP_PORT: 8085
+      FORGEJO__server__HTTP_PORT: 8101
       FORGEJO__server__SSH_DOMAIN: "${APP_DOMAIN}"
       FORGEJO__server__SSH_PORT: "${APP_FORGEJO_SSH_PORT}"
       FORGEJO__server__SSH_LISTEN_PORT: "${APP_FORGEJO_SSH_PORT}"
@@ -37,7 +37,5 @@ services:
       POSTGRES_USER: forgejo
       POSTGRES_PASSWORD: forgejo
       POSTGRES_DB: forgejo
-    networks:
-      - forgejo
     volumes:
       - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data

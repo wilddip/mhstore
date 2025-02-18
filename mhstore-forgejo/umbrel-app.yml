@@ -45,7 +45,7 @@ website: https://forgejo.org/
 dependencies: []
 repo: https://codeberg.org/forgejo/forgejo
 support: https://codeberg.org/forgejo/forgejo/issues
-port: 8085
+port: 8101
 icon: https://i.imgur.com/Tz2kQnu.png
 gallery: []
 releaseNotes: >-

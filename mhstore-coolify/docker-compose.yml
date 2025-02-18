@@ -20,7 +20,6 @@ services:
       DB_HOST: ${APP_ID}_db_1
       DB_PORT: 5432
       REDIS_HOST: ${APP_ID}_redis_1
-      REDIS_PASSWORD: coolify
       ROOT_USERNAME: root
       ROOT_USER_EMAIL: root@umbrel.local
       ROOT_USER_PASSWORD: p@ssw0rd
@@ -71,8 +70,6 @@ services:
   redis:
     image: redis:7
     restart: unless-stopped
-    environment:
-      REDIS_PASSWORD: coolify
     volumes:
       - ${APP_DATA_DIR}/data/redis:/data
     healthcheck:

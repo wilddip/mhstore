@@ -1,0 +1,7 @@
+/api/* {
+    reverse_proxy mhstore-bracket_backend_1:8400
+}
+
+/* {
+    reverse_proxy mhstore-bracket_frontend_1:3000
+}

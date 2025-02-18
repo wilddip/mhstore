@@ -1,0 +1,19 @@
+manifestVersion: 1.1
+id: mhstore-bracket
+category: test
+name: Bracket
+version: "1.0.0"
+tagline: Tagline
+description: Description
+developer: Developer
+website: https://example.com/
+dependencies: []
+repo: https://example.com/repo
+support: https://example.com/repo/issues
+port: 8102
+icon: https://i.imgur.com/xI0D9mt.png
+gallery: []
+releaseNotes: >-
+  ⚠️ No release notes! Absolutely!
+defaultUsername: root@umbrel.local
+defaultPassword: p@ssw0rd

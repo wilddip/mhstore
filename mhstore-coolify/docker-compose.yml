@@ -31,10 +31,7 @@ services:
       PHP_FPM_PM_MIN_SPARE_SERVERS: 1
       PHP_FPM_PM_MAX_SPARE_SERVER: 10
     volumes:
-      - type: bind
-        source: ${APP_DATA_DIR}/data/.env
-        target: /var/www/html/.env
-        read_only: true
+      - ${APP_DATA_DIR}/data/.env:/var/www/html/.env
       - ${APP_DATA_DIR}/data/coolify/ssh:/var/www/html/storage/app/ssh
       - ${APP_DATA_DIR}/data/coolify/backups:/var/www/html/storage/app/backups
       - ${APP_DATA_DIR}/data/coolify/services:/var/www/html/storage/app/services

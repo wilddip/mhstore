@@ -15,3 +15,5 @@ icon: https://i.imgur.com/xI0D9mt.png
 gallery: []
 releaseNotes: >-
   ⚠️ No release notes! Absolutely!
+defaultUsername: root
+defaultPassword: p@ssw0rd

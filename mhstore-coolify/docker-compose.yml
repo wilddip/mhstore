@@ -13,7 +13,6 @@ services:
     environment:
       APP_ENV: production
       APP_HOST: ${APP_DOMAIN}
-      APP_NAME: Coolify
       APP_PORT: 8102
       DB_USERNAME: coolify
       DB_PASSWORD: coolify
@@ -90,11 +89,9 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/coolify/ssh:/var/www/html/storage/app/ssh
     environment:
-      APP_NAME: Coolify
       SOKETI_DEBUG: false
-      SOKETI_DEFAULT_APP_ID: "${PUSHER_APP_ID}"
-      SOKETI_DEFAULT_APP_KEY: "${PUSHER_APP_KEY}"
-      SOKETI_DEFAULT_APP_SECRET: "${PUSHER_APP_SECRET}"
+    env_file:
+      - ${APP_DATA_DIR}/data/.env
     healthcheck:
       test: [ "CMD-SHELL", "wget -qO- http://127.0.0.1:6001/ready && wget -qO- http://127.0.0.1:6002/ready || exit 1" ]
       interval: 5s

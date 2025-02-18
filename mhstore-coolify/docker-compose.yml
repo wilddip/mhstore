@@ -8,25 +8,54 @@ services:
       PROXY_AUTH_ADD: "false"
 
   server:
-    image: coollabsio/coolify:latest
+    image: ghcr.io/coollabsio/coolify:latest@sha256:f946e3ef419cfdf081af930946b416287d12e751f479d0411c80fb2614cf6eef
     restart: unless-stopped
     environment:
+      APP_ENV: production
       APP_HOST: ${APP_DOMAIN}
+      APP_NAME: Coolify
       APP_PORT: 8102
-      APP_DATA_DIR: ${APP_DATA_DIR}
-      DB_HOST: mhstore-coolify_db_1
-      DB_PORT: 5432
       DB_USERNAME: coolify
       DB_PASSWORD: coolify
       DB_DATABASE: coolify
+      DB_HOST: mhstore-coolify_db_1
+      DB_PORT: 5432
       REDIS_HOST: mhstore-coolify_redis_1
-      REDIS_PORT: 6379
       REDIS_PASSWORD: coolify
+      ROOT_USERNAME: root
+      ROOT_USER_EMAIL: root@umbrel.local
+      ROOT_USER_PASSWORD: p@ssw0rd
+      PUSHER_BACKEND_HOST: mhstore-coolify_pusher_1
+      PHP_MEMORY_LIMIT: 128M
+      PHP_FPM_PM_CONTROL: dynamic
+      PHP_FPM_PM_START_SERVERS: 1
+      PHP_FPM_PM_MIN_SPARE_SERVERS: 1
+      PHP_FPM_PM_MAX_SPARE_SERVER: 10
     volumes:
-      - ${APP_DATA_DIR}/data/coolify:/data/coolify
+      - type: bind
+        source: ${APP_DATA_DIR}/data/.env
+        target: /var/www/html/.env
+        read_only: true
+      - ${APP_DATA_DIR}/data/coolify/ssh:/var/www/html/storage/app/ssh
+      - ${APP_DATA_DIR}/data/coolify/backups:/var/www/html/storage/app/backups
+      - ${APP_DATA_DIR}/data/coolify/services:/var/www/html/storage/app/services
+      - ${APP_DATA_DIR}/data/coolify/databases:/var/www/html/storage/app/databases
+      - ${APP_DATA_DIR}/data/coolify/applications:/var/www/html/storage/app/applications
+      - ${APP_DATA_DIR}/data/coolify/webhooks-during-maintenance:/var/www/html/storage/app/webhooks-during-maintenance
+    env_file:
+      - ${APP_DATA_DIR}/data/.env
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8080/api/health || exit 1
+      interval: 5s
+      retries: 10
+      timeout: 2s
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      soketi:
+        condition: service_healthy
 
   db:
     image: postgres:15
@@ -37,6 +66,11 @@ services:
       POSTGRES_DB: coolify
     volumes:
       - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U coolify", "-d", "coolify" ]
+      interval: 5s
+      retries: 10
+      timeout: 2s
 
   redis:
     image: redis:7
@@ -45,3 +79,24 @@ services:
       REDIS_PASSWORD: coolify
     volumes:
       - ${APP_DATA_DIR}/data/redis:/data
+    healthcheck:
+      test: redis-cli ping
+      interval: 5s
+      retries: 10
+      timeout: 2s
+
+  pusher:
+    image: ghcr.io/coollabsio/coolify-realtime:1.0.5
+    volumes:
+      - ${APP_DATA_DIR}/data/coolify/ssh:/var/www/html/storage/app/ssh
+    environment:
+      APP_NAME: Coolify
+      SOKETI_DEBUG: false
+      SOKETI_DEFAULT_APP_ID: "${PUSHER_APP_ID}"
+      SOKETI_DEFAULT_APP_KEY: "${PUSHER_APP_KEY}"
+      SOKETI_DEFAULT_APP_SECRET: "${PUSHER_APP_SECRET}"
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -qO- http://127.0.0.1:6001/ready && wget -qO- http://127.0.0.1:6002/ready || exit 1" ]
+      interval: 5s
+      retries: 10
+      timeout: 2s

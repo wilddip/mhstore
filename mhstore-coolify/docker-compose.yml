@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: mhstore-coolify_server_1
+      APP_PORT: 8102
+      PROXY_AUTH_ADD: "false"
+
+  server:
+    image: coollabsio/coolify:latest
+    restart: unless-stopped
+    environment:
+      APP_HOST: ${APP_DOMAIN}
+      APP_PORT: 8102
+      APP_DATA_DIR: ${APP_DATA_DIR}
+      DB_HOST: mhstore-coolify_db_1
+      DB_PORT: 5432
+      DB_USERNAME: coolify
+      DB_PASSWORD: coolify
+      DB_DATABASE: coolify
+      REDIS_HOST: mhstore-coolify_redis_1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: coolify
+    volumes:
+      - ${APP_DATA_DIR}/data/coolify:/data/coolify
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: coolify
+      POSTGRES_PASSWORD: coolify
+      POSTGRES_DB: coolify
+    volumes:
+      - ${APP_DATA_DIR}/data/db:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    environment:
+      REDIS_PASSWORD: coolify
+    volumes:
+      - ${APP_DATA_DIR}/data/redis:/data

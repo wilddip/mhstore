@@ -18,7 +18,7 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "curl --fail http://localhost:8000/health-check/up || exit 1" ]
     env_file:
-      - ${APP_DATA_DIR}/data/laravel.env
+      - ${APP_DATA_DIR}/data/.env
     depends_on:
       - db
   
@@ -33,7 +33,7 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "supervisorctl status scheduler:scheduler_00" ]
     env_file:
-      - ${APP_DATA_DIR}/data/laravel.env
+      - ${APP_DATA_DIR}/data/.env
     depends_on:
       - db
   
@@ -49,7 +49,7 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "supervisorctl status worker:worker_00" ]
     env_file:
-      - ${APP_DATA_DIR}/data/laravel.env
+      - ${APP_DATA_DIR}/data/.env
     depends_on:
       - db
   
